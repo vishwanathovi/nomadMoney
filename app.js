@@ -9,7 +9,7 @@ const path = require("path");
 const port = 8000;
 
 mongoose.connect(
-  "mongodb://localhost/writer",
+  "mongodb://localhost/nomadMoney",
   { useNewUrlParser: true },
   function(err, connection) {
     if (err) throw err;
@@ -27,10 +27,10 @@ app.set("view engine", "ejs");
 
 app.use(
   session({
-    secret: "writer",
+    secret: "nomadMoney",
     resave: true,
     saveUninitialized: true,
-    store: new MongoStore({ url: "mongodb://localhost/writer-session" })
+    store: new MongoStore({ url: "mongodb://localhost/nomadMoney-session" })
   })
 );
 
@@ -51,7 +51,6 @@ if (process.env.NODE_ENV === "development") {
 
 app.use(cors());
 
-app.use("/api/v1", require("./server/routes/index"));
 app.use("/api/v1", require("./server/routes/user"));
 
 app.use(require("./server/routes/index"));

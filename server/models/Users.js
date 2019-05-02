@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const bcrypt = require("bcryptjs");
 
 const userSchema = new Schema(
 	{
@@ -13,6 +14,13 @@ const userSchema = new Schema(
 	{ timestamps: true }
 );
 
+userSchema.methods.verifyPassword = function(userPassword, cb) {
+	bcrypt.compare(userPassword, this.password, function(err, res) {
+		if (err) cb(err, false);
+		cb(null, res);
+	});
+};
+
 const User = mongoose.model("User", userSchema);
 module.exports = User;
 
@@ -20,14 +28,6 @@ module.exports = User;
 
 // const SALT_FACTOR = 10;
 // const bcrypt = require("bcrypt");
-
-// userSchema.methods.verifyPassword = function(userPassword, cb) {
-// 	bcrypt.compare(userPassword, this.password, function(err, res) {
-// 		// console.log(err);
-// 		if (err) cb(err, false);
-// 		cb(null, res);
-// 	});
-// };
 
 // userSchema.pre("save", function(next) {
 // 	var password = this.password;
