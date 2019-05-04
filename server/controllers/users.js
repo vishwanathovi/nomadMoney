@@ -29,36 +29,55 @@ module.exports = {
 		// }
 
 		User.findOne({ email: email }, (err, user) => {
-			if (err) throw err;
+			if (err) console.log(err);
 			if (user) {
 				errors.push("Email id already present!");
 			}
-		});
 
-		if (errors.length > 0) {
-			res.json({ errors: errors });
-		} else {
-			const newUser = new User({
-				username,
-				email,
-				password
-			});
-
-			bcrypt.genSalt(10, (err, salt) => {
-				bcrypt.hash(newUser.password, salt, (err, hash) => {
-					if (err) throw err;
-					newUser.password = hash;
-					newUser
-						.save()
-						.then(user => {
-							res.redirect("/login");
-						})
-						.catch(err => console.log(err));
+			if (errors.length > 0) {
+				res.json({ errors: errors });
+			} else {
+				const newUser = new User({
+					username,
+					email,
+					password
 				});
+
+				bcrypt.genSalt(10, (err, salt) => {
+					bcrypt.hash(newUser.password, salt, (err, hash) => {
+						if (err) throw err;
+						newUser.password = hash;
+						newUser
+							.save()
+							.then(user => {
+								res.json({
+									success: true,
+									message: "user created succesfully"
+								});
+							})
+							.catch(err => console.log(err));
+					});
+				});
+			}
+		});
+	},
+	loginUser: (req, res) => {},
+	isLoggedIn: (req, res, next) => {
+		if (req.session.passport) {
+			return next();
+		} else {
+			return res.status(401).json({
+				success: false,
+				message: "Please login to get access"
 			});
 		}
 	},
-	loginUser: (req, res) => {},
-	isUser: (req, res) => {},
-	getUser: (req, res) => {}
+	getUser: (req, res) => {},
+	logOut: (req, res) => {
+		req.session.destroy();
+		res.status(200).json({
+			success: true,
+			message: "Session is removed & User Is LoggedOut"
+		});
+	}
 };

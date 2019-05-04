@@ -9,23 +9,25 @@ router.post("/register", userController.createUser);
 
 router.post("/login", function(req, res, next) {
 	passport.authenticate("local", function(err, user, info) {
-		console.log(err, user, info);
+		console.log("passport output: ", err, user, info);
 		if (err) {
 			return next(err);
 		}
 		if (!user) {
-			return res.redirect("/login");
+			return res.json({
+				success: false,
+				message: "EmailID not found! Please register!"
+			});
 		}
 		req.logIn(user, function(err) {
 			if (err) {
 				return next(err);
 			}
-			return res.redirect("/users/" + user.username);
+			return res.json({ success: true, message: "Logged in succesfully!" });
 		});
 	})(req, res, next);
 });
 
-router.get("/isLoggedIn", userController.isUser);
-router.get("/user", userController.getUser);
+router.get("/logout", userController.logOut);
 
 module.exports = router;

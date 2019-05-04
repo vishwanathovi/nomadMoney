@@ -8,6 +8,8 @@ const cors = require("cors");
 const path = require("path");
 const port = 8000;
 
+const passport = require("passport");
+
 mongoose.connect(
   "mongodb://localhost/nomadMoney",
   { useNewUrlParser: true },
@@ -51,7 +53,13 @@ if (process.env.NODE_ENV === "development") {
 
 app.use(cors());
 
+app.use(passport.initialize());
+app.use(passport.session());
+// Requiring passport module
+require("./server/modules/passport")(passport);
+
 app.use("/api/v1", require("./server/routes/user"));
+app.use("/api/v1", require("./server/routes/report"));
 
 app.use(require("./server/routes/index"));
 

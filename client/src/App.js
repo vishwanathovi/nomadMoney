@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import "./App.scss";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import login from "./components/login";
+// import login from "./components/login";
 import register from "./components/register";
+import homepage from "./components/homepage";
+import dashboard from "./components/dashboard";
 
 class App extends Component {
 	render() {
@@ -10,8 +12,9 @@ class App extends Component {
 			<BrowserRouter>
 				<div className="App">
 					<Switch>
-						<Route path="/" component={register} />
-						<Route exact path="/login" component={login} />
+						<Route exact path="/" component={homepage} />
+						<Route path="/register" component={register} />
+						<Route path="/dashboard" component={dashboard} />
 					</Switch>
 				</div>
 			</BrowserRouter>
