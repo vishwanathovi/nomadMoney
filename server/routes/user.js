@@ -7,6 +7,7 @@ const userController = require("./../controllers/users");
 
 router.post("/register", userController.createUser);
 
+// TODO: Move the login logic to controller file
 router.post("/login", function(req, res, next) {
 	passport.authenticate("local", function(err, user, info) {
 		console.log("passport output: ", err, user, info);

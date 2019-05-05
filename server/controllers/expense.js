@@ -1,30 +1,30 @@
 const Report = require("../models/Reports");
-const Earning = require("../models/Earnings");
+const Expense = require("../models/Expenses");
 
 module.exports = {
-	getEarning: (req, res) => {
-		// search for the earningid
-		// check if earning is present
-		// send the earning data back
-		let { earningid } = req.params;
+	getExpense: (req, res) => {
+		// search for the expenseid
+		// check if expense is present
+		// send the expense data back
+		let { expenseid } = req.params;
 
-		Earning.findOne({ _id: earningid }, (err, earning) => {
+		Expense.findOne({ _id: expenseid }, (err, expense) => {
 			if (err) return console.log(err);
-			if (!earning) {
-				return res.json({ success: false, message: "earning not found!" });
+			if (!expense) {
+				return res.json({ success: false, message: "expense not found!" });
 			}
 
-			return res.json({ success: true, earning: earning });
+			return res.json({ success: true, expense: expense });
 		});
 	},
-	addEarning: (req, res) => {
+	addExpense: (req, res) => {
 		// check if the report is present
 		// check if the current user is the author of the report
-		// add the earning
-		// add the earning id into the report schema
+		// add the expense
+		// add the expense id into the report schema
 		let { reportid } = req.params;
 		let userId = String(req.user._id);
-		let { title, earning, description, hours } = req.body;
+		let { title, expense, description } = req.body;
 
 		Report.findOne({ _id: reportid }, (err, report) => {
 			if (err) return console.log(err);
@@ -38,28 +38,27 @@ module.exports = {
 				return res.json({
 					success: false,
 					message:
-						"User does not have the permission to add an earning in this report!"
+						"User does not have the permission to add an expense in this report!"
 				});
 			}
-			let newEarning = new Earning({
+			let newExpense = new Expense({
 				title,
-				hours,
-				earning,
+				expense,
 				description,
 				reportid
 			});
-			newEarning
+			newExpense
 				.save()
-				.then(earning => {
+				.then(expense => {
 					Report.findOneAndUpdate(
 						{ _id: reportid },
-						{ $push: { earnings: earning._id } },
+						{ $push: { expenses: expense._id } },
 						{ new: true },
 						(err, report) => {
 							if (err) return console.log(err);
 							return res.json({
 								success: true,
-								message: "Earning added successfully!"
+								message: "Expense added successfully!"
 							});
 						}
 					);
@@ -67,11 +66,11 @@ module.exports = {
 				.catch(err => console.log(err));
 		});
 	},
-	editEarning: (req, res) => {
+	editExpense: (req, res) => {
 		// check if the report is present
 		// check if the current user is the author of the report
-		// edit the earning
-		let { earningid, reportid } = req.params;
+		// edit the expense
+		let { expenseid, reportid } = req.params;
 		let userId = String(req.user._id);
 
 		Report.findOne({ _id: reportid }, (err, report) => {
@@ -86,28 +85,28 @@ module.exports = {
 				return res.json({
 					success: false,
 					message:
-						"User does not have the permission to edit an earning in this report!"
+						"User does not have the permission to edit an expense in this report!"
 				});
 			}
 
-			Earning.findOneAndUpdate({ _id: earningid }, req.body, (err, earning) => {
+			Expense.findOneAndUpdate({ _id: expenseid }, req.body, (err, expense) => {
 				if (err) return console.log(err);
 				return res.json({
 					success: true,
-					message: "Earning updated successfully!"
+					message: "Expense updated successfully!"
 				});
 			});
 		});
 	},
-	deleteEarning: (req, res) => {
+	deleteExpense: (req, res) => {
 		// check if the report is present
 		// check if the current user is the author of the report
-		// Check if the earning is present
-		// remove the earning
-		// remove the earning from the report schema
-		let { earningid, reportid } = req.params;
+		// Check if the expense is present
+		// remove the expense
+		// remove the expense from the report schema
+		let { expenseid, reportid } = req.params;
 		let userId = String(req.user._id);
-		let { title, earning, description } = req.body;
+		let { title, expense, description } = req.body;
 
 		Report.findOne({ _id: reportid }, (err, report) => {
 			if (err) return console.log(err);
@@ -121,26 +120,26 @@ module.exports = {
 				return res.json({
 					success: false,
 					message:
-						"User does not have the permission to add an earning in this report!"
+						"User does not have the permission to add an expense in this report!"
 				});
 			}
 
-			Earning.findOneAndRemove({ _id: earningid }, (err, earning) => {
+			Expense.findOneAndRemove({ _id: expenseid }, (err, expense) => {
 				if (err) return console.log(err);
-				if (!earning) {
+				if (!expense) {
 					return res.json({
 						success: false,
-						message: "Earning not found! Try again!"
+						message: "Expense not found! Try again!"
 					});
 				}
 				Report.findOneAndUpdate(
 					{ _id: reportid },
-					{ $pull: { earnings: earningid } },
+					{ $pull: { expenses: expenseid } },
 					(err, report) => {
 						if (err) return console.log(err);
 						return res.json({
 							success: true,
-							message: "earning removed successfully!"
+							message: "expense removed successfully!"
 						});
 					}
 				);

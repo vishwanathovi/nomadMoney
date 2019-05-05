@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 const EarningsSchema = new Schema(
 	{
-		name: { Type: String, required: true },
-		hours: { Type: Number },
-		earning: { Type: Number, required: true },
-		description: { Type: String }
+		title: { type: String, required: true },
+		hours: { type: Number },
+		earning: { type: Number, required: true },
+		description: { type: String }
 	},
 	{ timestamps: true }
 );

@@ -60,6 +60,8 @@ require("./server/modules/passport")(passport);
 
 app.use("/api/v1", require("./server/routes/user"));
 app.use("/api/v1", require("./server/routes/report"));
+app.use("/api/v1", require("./server/routes/expense"));
+app.use("/api/v1", require("./server/routes/earning"));
 
 app.use(require("./server/routes/index"));
 

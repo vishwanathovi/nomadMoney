@@ -13,7 +13,7 @@ router.get(
 router.get(
 	"/report/:reportid",
 	userController.isLoggedIn,
-	reportController.showMyReport
+	reportController.showReport
 );
 router.post(
 	"/add-report",

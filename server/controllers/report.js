@@ -4,18 +4,35 @@ const User = require("../models/Users");
 module.exports = {
 	showAllReports: (req, res) => {
 		// Fetch all the reports expert the authors and send
+		let userId = req.user._id;
+
+		Report.find({ author: { $ne: userId } }, (err, reports) => {
+			if (err) console.log(err);
+			res.json({ success: true, reports: reports });
+		});
 	},
 	showMyReports: (req, res) => {
 		// Fetch all the reports of the author and send
+		let userId = req.user._id;
+
+		Report.find({ author: userId }, (err, reports) => {
+			if (err) console.log(err);
+			res.json({ success: true, reports: reports });
+		});
 	},
-	showMyReport: (req, res) => {
-		// Fetch report according to the id and send the data
+	showReport: (req, res) => {
+		// fetch report data and send
+		let { reportid } = req.params;
+
+		Report.findOne({ _id: reportid }, (err, report) => {
+			if (err) console.log(err);
+			res.json({ success: true, report: report });
+		});
 	},
 	createReport: (req, res) => {
 		// Check if the required information is available
 		// Create a report
 		// Add report id into the User collection
-
 		let { month, description } = req.body;
 		let errors = [];
 		let userId = req.user._id;
@@ -37,7 +54,7 @@ module.exports = {
 				.save()
 				.then(report => {
 					User.findOneAndUpdate(
-						{ _id: req.user._id },
+						{ _id: userId },
 						{ $push: { reports: report._id } },
 						{ new: true },
 						(err, user) => {
@@ -54,7 +71,7 @@ module.exports = {
 		// Check if the required information is available
 		// edit the report
 
-		let userId = req.user._id;
+		let userId = String(req.user._id);
 		let { month, description } = req.body;
 		let reportId = req.params.reportid;
 		let errors = [];
@@ -67,10 +84,10 @@ module.exports = {
 			res.json({ success: false, errors: errors });
 		} else {
 			// Check if the author is the current user
+			// TODO: Improve by using $ne to check the author
 			Report.findOne({ _id: reportId }, (err, report) => {
 				if (err) console.log(err);
-				console.log("report.author", report.author, "Userid", userId);
-				if (report.author !== userId) {
+				if (String(report.author) !== userId) {
 					res.json({
 						success: false,
 						message:
@@ -96,5 +113,38 @@ module.exports = {
 	deleteReport: (req, res) => {
 		// Check if the report is of the same user
 		// Check if the report id is available and delete the report
+		let userId = String(req.user._id);
+		let { reportid } = req.params;
+
+		Report.findOne({ _id: reportid }, (err, report) => {
+			if (err) console.log(err);
+
+			// TODO: use return before res.json to stop the execution and remove the if-else conditions that are not required.
+			if (!report) {
+				res.json({ success: false, message: "Report not found!" });
+			} else {
+				if (String(report.author) !== userId) {
+					res.json({
+						success: false,
+						message: "User not authorized to delete this report!"
+					});
+				} else {
+					Report.findByIdAndRemove(reportid, (err, report) => {
+						if (err) console.log(err);
+
+						User.findOneAndUpdate(
+							{ _id: userId },
+							{ $pull: { reports: report._id } },
+							(err, user) => {
+								res.json({
+									success: true,
+									message: "Report deleted successfully"
+								});
+							}
+						);
+					});
+				}
+			}
+		});
 	}
 };

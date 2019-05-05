@@ -61,7 +61,6 @@ module.exports = {
 			}
 		});
 	},
-	loginUser: (req, res) => {},
 	isLoggedIn: (req, res, next) => {
 		if (req.session.passport) {
 			// User.findOne({ _id: req.session.passport }, (err, user) => {
