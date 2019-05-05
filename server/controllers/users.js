@@ -64,6 +64,10 @@ module.exports = {
 	loginUser: (req, res) => {},
 	isLoggedIn: (req, res, next) => {
 		if (req.session.passport) {
+			// User.findOne({ _id: req.session.passport }, (err, user) => {
+			// 	if (err) console.log(err);
+			// 	req.user = user;
+			// });
 			return next();
 		} else {
 			return res.status(401).json({

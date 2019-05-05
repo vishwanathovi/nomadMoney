@@ -5,7 +5,8 @@ const ReportsSchema = new Schema(
 	{
 		month: { type: String, required: true }, // TODO: Need to decide on the data type to use here
 		description: { type: String },
-		earnings: [{ type: Schema.Types.ObjectId, ref: "Earnings" }]
+		earnings: [{ type: Schema.Types.ObjectId, ref: "Earnings" }],
+		author: { type: Schema.Types.ObjectId, ref: "User" }
 	},
 	{ timestamps: true }
 );
