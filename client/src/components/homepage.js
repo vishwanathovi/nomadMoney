@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Login from "./login";
+import Login from "./userAuth/login";
 
-export default class login extends Component {
+export default class homepage extends Component {
 	render() {
 		return (
 			<div className="homepage container">
@@ -13,6 +13,7 @@ export default class login extends Component {
 							<div className="description">
 								Handle all your earning/expenses here
 							</div>
+
 							<Login />
 							<div className="register-instead">
 								New here? - <Link to={`/register`}>Register instead</Link>
