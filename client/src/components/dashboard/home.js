@@ -1,12 +1,23 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
-export default class home extends Component {
+import { fetchAllReports } from "./../../actions";
+
+class home extends Component {
+	componentDidMount() {
+		this.props.dispatch(fetchAllReports());
+	}
+
 	render() {
-		return (
-			<div className="home">
-				Home content
-				<p>adf</p>
-			</div>
-		);
+		let { reports } = this.props;
+		console.log("Reports: ", reports);
+
+		return <div className="home" />;
 	}
 }
+
+const mapStateToProps = state => ({
+	reports: state.report.reports
+});
+
+export default connect(mapStateToProps)(home);

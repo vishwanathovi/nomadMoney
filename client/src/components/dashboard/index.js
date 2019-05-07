@@ -3,20 +3,14 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import Home from "./home";
 import AddExpense from "./add-expense";
+import Sidebar from "./sidebar";
 
 export default class dashboard extends Component {
 	render() {
 		return (
 			<div className="dashboard container">
 				<div className="row">
-					<div className="sidebar col-md-3">
-						<div className="sidebar__nav">
-							<div className="sidebar__nav-item">Home</div>
-							<div className="sidebar__nav-item">Add earning/expense</div>
-							<div className="sidebar__nav-item">Expenses</div>
-							<div className="sidebar__nav-item">Settings</div>
-						</div>
-					</div>
+					<Sidebar />
 					<div className="col-md-9">
 						<BrowserRouter>
 							<Switch>

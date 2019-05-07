@@ -1,9 +1,12 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Login from "./userAuth/login";
+import Register from "./userAuth/register";
 
-export default class homepage extends Component {
+class homepage extends Component {
 	render() {
+		let { pathname } = this.props.location;
+
 		return (
 			<div className="homepage container">
 				<div className="row">
@@ -13,8 +16,7 @@ export default class homepage extends Component {
 							<div className="description">
 								Handle all your earning/expenses here
 							</div>
-
-							<Login />
+							{pathname === "/register" ? <Register /> : <Login />}
 							<div className="register-instead">
 								New here? - <Link to={`/register`}>Register instead</Link>
 							</div>
@@ -26,3 +28,5 @@ export default class homepage extends Component {
 		);
 	}
 }
+
+export default withRouter(homepage);

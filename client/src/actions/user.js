@@ -53,14 +53,19 @@ export function loginSubmit(state, cb) {
 }
 
 // Logout
-export function handleLogout() {
+export function logoutSubmit(cb) {
 	return dispatch => {
-		fetch(URL + "api/v1/loggedOut")
+		fetch(URL + "api/v1/logout")
 			.then(response => response.json())
 			.then(data => {
 				dispatch({
 					type: Type.LOGOUT
 				});
+
+				if (data.success) {
+					return cb(true);
+				}
+				return cb(false);
 			});
 	};
 }
