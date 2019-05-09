@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import Login from "./userAuth/login";
-import Register from "./userAuth/register";
+import Login from "./login";
+import Register from "./register";
 import "./homepage.scss";
 
 class homepage extends Component {

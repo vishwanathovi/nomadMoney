@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import "./App.scss";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 // import login from "./components/login";
-import register from "./components/userAuth/register";
-import homepage from "./components/homepage";
-import dashboard from "./components/dashboard";
+import Register from "./components/homepage/register";
+import Homepage from "./components/homepage/homepage";
+import Dashboard from "./components/dashboard/dashboard";
 
 class App extends Component {
   render() {
@@ -12,10 +12,10 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Switch>
-            <Route exact path="/" component={homepage} />
-            <Route exact path="/login" component={homepage} />
-            <Route exact path="/register" component={homepage} />
-            <Route path="/dashboard" component={dashboard} />
+            <Route exact path="/" component={Homepage} />
+            <Route exact path="/login" component={Homepage} />
+            <Route exact path="/register" component={Homepage} />
+            <Route path="/dashboard" component={Dashboard} />
           </Switch>
         </div>
       </BrowserRouter>

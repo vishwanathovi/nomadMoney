@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./reportHome.scss";
+import "./report.scss";
 
 class reportHome extends Component {
   constructor(props) {
@@ -53,7 +53,8 @@ class reportHome extends Component {
             <div> $ {totalEarning - totalExpense}</div>
           </div>
         </div>
-        <button>Detailed Report</button>
+        <button>Add an earning</button>
+        <button>Add a expense</button>
       </div>
     );
   }

@@ -7,6 +7,13 @@ export default (state = { reports: [] }, action) => {
         ...state,
         reports: action.reports
       };
+
+    case Type.GETALLMYREPORTS:
+      return {
+        ...state,
+        myReports: action.myReports
+      };
+
     default:
       return state;
   }

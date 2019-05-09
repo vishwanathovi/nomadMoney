@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { logoutSubmit } from "./../../actions";
+import { logoutSubmit } from "./../../../actions";
 
 class sidebar extends Component {
   handleLogout = e => {
@@ -19,9 +19,15 @@ class sidebar extends Component {
     return (
       <div className="sidebar">
         <div className="sidebar__nav">
-          <div className="sidebar__nav-item">Home</div>
-          <div className="sidebar__nav-item">Add earning/expense</div>
-          <div className="sidebar__nav-item">Expenses</div>
+          <div className="sidebar__nav-item">
+            <Link to="/dashboard">Home</Link>
+          </div>
+          <div className="sidebar__nav-item">
+            <Link to="/dashboard/add-report">Add Report</Link>
+          </div>
+          <div className="sidebar__nav-item">
+            <Link to="/dashboard/reports">My Reports</Link>
+          </div>
           <div className="sidebar__nav-item">Settings</div>
           <div onClick={this.handleLogout} className="sidebar__nav-item">
             Logout
