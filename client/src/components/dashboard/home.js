@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
+import ReportHome from "./reportHome";
 import { fetchAllReports } from "./../../actions";
 
 class home extends Component {
@@ -10,9 +11,15 @@ class home extends Component {
 
 	render() {
 		let { reports } = this.props;
-		console.log("Reports: ", reports);
 
-		return <div className="home" />;
+		return (
+			<div className="home">
+				{reports &&
+					reports.map(report => (
+						<ReportHome key={report._id} report={report} />
+					))}
+			</div>
+		);
 	}
 }
 

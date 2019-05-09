@@ -6,7 +6,8 @@ const EarningsSchema = new Schema(
 		title: { type: String, required: true },
 		hours: { type: Number },
 		earning: { type: Number, required: true },
-		description: { type: String }
+		description: { type: String },
+		reportid: { type: Schema.Types.ObjectId, ref: "Reports" }
 	},
 	{ timestamps: true }
 );

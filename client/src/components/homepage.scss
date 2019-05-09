@@ -1,0 +1,31 @@
+.homepage {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  height: 100vh;
+  padding: 40px;
+
+  .login-main {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+
+    .logo {
+      font-size: 32px;
+      color: dodgerblue;
+      padding: 10px 0;
+    }
+
+    .description {
+      font-size: 18px;
+      color: #666;
+      letter-spacing: 1.1px;
+    }
+
+    form > * {
+      display: block;
+      margin: 5px auto;
+    }
+  }
+}

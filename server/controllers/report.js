@@ -3,25 +3,29 @@ const User = require("../models/Users");
 
 module.exports = {
 	showAllReports: (req, res) => {
-		// Fetch all the reports expert the authors and send
 		let userId = req.user._id;
 
-		Report.find({ author: { $ne: userId } }, (err, reports) => {
-			if (err) console.log(err);
-			res.json({ success: true, reports: reports });
-		});
+		Report.find({ author: { $ne: userId } })
+			.populate("earnings")
+			.populate("expenses")
+			.populate("author")
+			.exec((err, reports) => {
+				if (err) console.log(err);
+				res.json({ success: true, reports: reports });
+			});
 	},
 	showMyReports: (req, res) => {
-		// Fetch all the reports of the author and send
 		let userId = req.user._id;
 
-		Report.find({ author: userId }, (err, reports) => {
-			if (err) console.log(err);
-			res.json({ success: true, reports: reports });
-		});
+		Report.find({ author: userId })
+			.populate("earnings")
+			.populate("expenses")
+			.exec((err, reports) => {
+				if (err) console.log(err);
+				res.json({ success: true, reports: reports });
+			});
 	},
 	showReport: (req, res) => {
-		// fetch report data and send
 		let { reportid } = req.params;
 
 		Report.findOne({ _id: reportid }, (err, report) => {
